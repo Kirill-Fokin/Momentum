@@ -1,3 +1,4 @@
+alert('Добрый день, если не сложно, проверьте работу в последний день')
 function currentTime() {
   let date = new Date(); 
   let hour = date.getHours();
