@@ -210,11 +210,14 @@ body {
 .greeting-container {
   display: flex;
   flex-wrap: wrap;
+  text-align: center;
+  margin:  0 auto;
   justify-content: stretch;
   align-items: center;
   min-height: 48px;
   width: 100vw;
   font-size: 40px;
+  
 }
 
 .greeting {
