@@ -1,4 +1,4 @@
-alert('Добрый день, если не сложно, проверьте работу в последний день')
+
 function currentTime() {
   let date = new Date(); 
   let hour = date.getHours();
@@ -130,21 +130,44 @@ setBg ()
 
 
 
-async function getWeather() {  
-       const weatherIcon = document.querySelector('.weather-icon');
-      const temperature = document.querySelector('.temperature');
-      const weatherDescription = document.querySelector('.weather-description');
-        const url = `https://api.openweathermap.org/data/2.5/weather?q=Минск&lang=ru&appid=08f2a575dda978b9c539199e54df03b0&units=metric`;
+async function getWeather(city='Minsk') {  
+       
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=ru&appid=4cf5ae56a1681c85a6c2c6d87fd3e162&units=metric`;
         const res = await fetch(url);
         const data = await res.json(); 
         console.log(data.weather[0].id, data.weather[0].description, data.main.temp);
         
 
         weatherIcon.classList.add(`owf-${data.weather[0].id}`);
-        temperature.textContent = `${data.main.temp}°C`;
+        temperature.textContent = `${Math.round(data.main.temp)}°C`;
         weatherDescription.textContent = data.weather[0].description;
       }
       getWeather()
+      const weatherIcon = document.querySelector('.weather-icon');
+      const temperature = document.querySelector('.temperature');
+      const weatherDescription = document.querySelector('.weather-description');
+
+
+      let cityInput  = document.querySelector('.city');
+      console.log(cityInput.value)
+     
+      function setLocalStorage2() {
+ 
+        localStorage.setItem('cityInput', cityInput.value);
+
+        
+      }
+      window.addEventListener('beforeunload', setLocalStorage2)
+      
+
+      
+      function getLocalStorage2() {
+        if(localStorage.getItem('cityInput')) {
+          nameInput.value = localStorage.getItem('cityInput');
+         
+        }
+      }
+      window.addEventListener('load', getLocalStorage2)
 
 
       /*================================================================Weather=====================================*/
@@ -153,14 +176,40 @@ async function getWeather() {
        
       async function getQuotes() {  
         const quotes = 'data.json';
+        
         const res = await fetch(quotes);
         const data = await res.json(); 
-        
-        let quote = querySelector('.quote')
-      console.log(quotes['members'])
+        let quote = document.querySelector('.quote')
 
+       constdataLength = (Object.keys(data).length)
+        console.log(data[2].author)
+
+        let random = function () {
+          let min = Math.ceil(0);
+          let  max = Math.floor(2);
+           return Math.floor(Math.random() * (max - min + 1)) + min; //Максимум и минимум включаются
+         } 
+         let result = random()
+        let quotText =  (data[result].text)
+        
+       
+
+       let quoteContent = (data[result].text + data[ result].author)
+       quote.textContent = quoteContent;
+       
       }
       getQuotes();
+     
+      let changeButton = document.querySelector('.change-quote')
+       
+
+      changeButton.addEventListener('click', getQuotes )
+        
+    
+        
+      
+
+    
 
       
 
